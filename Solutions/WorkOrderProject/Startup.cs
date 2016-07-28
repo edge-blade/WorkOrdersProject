@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using DomainProject;
 
 namespace WorkOrderProject
 {
@@ -29,6 +31,10 @@ namespace WorkOrderProject
         {
             // Add framework services.
             services.AddMvc();
+
+            // Database startup
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=WorkOrderProject;Trusted_Connection=True;";
+            services.AddDbContext<WorkOrderDbContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("WorkOrderProject")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
